@@ -6,6 +6,7 @@ void ofApp::setup(){
 	ofSetFrameRate(60);
 	ofLogToConsole();
 
+	webcam.listDevices();
 	webcam.setup(w, h, device_id, webcam_fps);
 }
 

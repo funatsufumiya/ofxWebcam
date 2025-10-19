@@ -1,13 +1,84 @@
 #include "ofxWebcam.h"
 #include "ofxAsync.h"
+#include <codecvt>
+
+std::string ws2s(const std::wstring& wstr)
+{
+    using convert_typeX = std::codecvt_utf8<wchar_t>;
+    std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+    return converterX.to_bytes(wstr);
+}
+
+void ofxWebcam::open(cv::VideoCapture& capture, int device_id){
+    #if defined(WIN32)
+        capture.open(device_id, cv::CAP_MSMF);
+    #elif __APPLE__ && TARGET_OS_MAC
+        capture.open(device_id, cv::CAP_AVFOUNDATION);
+    #else
+        capture.open(device_id);
+    #endif // WIN32
+}
+
+void ofxWebcam::listDevices(){
+
+ofLogNotice("ofxWebcam") << "============";
+
+#if defined(WIN32)
+    listDevicesMSMF();
+#elif __APPLE__ && TARGET_OS_MAC
+    listDevicesAVFoundation();
+#else
+    listDevicesCv();
+#endif
+
+ofLogNotice("ofxWebcam") << "============";
+
+}
+
+void ofxWebcam::listDevicesMSMF(){
+    using namespace enumerate_cameras_windows;
+    vector<CameraInfo> camera_infos;
+    if(MSMF_enumerate_cameras(camera_infos)){
+        int i=0;
+        for(auto&& info: camera_infos){
+            ofLogNotice("ofxWebcam") << i << ": "
+                << ws2s(info.name) << "(" << ws2s(info.path) << ")";
+            ++i;
+        }
+    }
+}
+
+void ofxWebcam::listDevicesAVFoundation(){
+}
+
+void ofxWebcam::listDevicesCv(){
+    const int max_id = 15;
+
+    for(int i=0; i<=max_id; ++i){
+        const int device_id = i;
+
+        cv::VideoCapture _cap;
+
+        open(_cap, device_id);
+
+        if(_cap.isOpened()){
+            int width = _cap.get(cv::CAP_PROP_FRAME_WIDTH);
+            int height = _cap.get(cv::CAP_PROP_FRAME_HEIGHT);
+            float fps = _cap.get(cv::CAP_PROP_FPS);
+            auto fps_str = ofToString(fps, 2, 0, '\0');
+
+            ofLogNotice("ofxWebcam") << device_id << ": "
+                << width << " x " << height
+                << ", fps: " << fps_str;
+        }
+
+    }
+}
 
 void ofxWebcam::setup(int width, int height, int device_id, float fps){
 
-#if defined(WIN32)
-    cap.open(device_id, cv::CAP_MSMF);
-#else
-    cap.open(device_id);
-#endif // WIN32
+    open(cap, device_id);
 
     cap.set(cv::CAP_PROP_FRAME_WIDTH, width);
     cap.set(cv::CAP_PROP_FRAME_HEIGHT, height);

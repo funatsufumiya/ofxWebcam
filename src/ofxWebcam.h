@@ -1,5 +1,9 @@
 #pragma once
 
+#if defined(WIN32)
+#include "enumerate_cameras_windows.h"
+#endif
+
 #include "ofMain.h"
 #include "ofxCv.h"
 #include <optional>
@@ -7,6 +11,7 @@
 
 class ofxWebcam {
 public:
+    void listDevices();
     void setup(int width, int height, int device_id=0, float fps=30.0);
     void update();
     void draw(float x, float y);
@@ -27,7 +32,12 @@ protected:
     bool is_updating_by_thread = false;
     bool is_frame_new = false;
 
+    void listDevicesCv();
+    void listDevicesAVFoundation();
+    void listDevicesMSMF();
+
     void startThread();
     void updateCv();
     void exit(ofEventArgs& e);
+    void open(cv::VideoCapture& capture, int device_id);
 };
