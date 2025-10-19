@@ -1,4 +1,4 @@
+ofxAsync
 ofxOpenCv
 ofxCv
-ofxAsync
 ofxWebcam

@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxCv.h"
 #include <optional>
+#include "opencv2/videoio.hpp"
 
 class ofxWebcam {
 public:

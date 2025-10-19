@@ -99,4 +99,8 @@ void ofxWebcam::updateCv(){
 
 void ofxWebcam::exit(ofEventArgs& e){
     // ofLogNotice("ofxWebcam") << "exitting";
+    if(th != nullptr){
+        th->stopThread();
+        th->waitForThread();
+    }
 }
