@@ -1,5 +1,4 @@
 #include "ofApp.h"
-#include "ofxAsync.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -7,64 +6,25 @@ void ofApp::setup(){
 	ofSetFrameRate(60);
 	ofLogToConsole();
 
-	#ifdef USE_CV
-
-	cap.open(0);
-	cap.set(cv::CAP_PROP_FRAME_WIDTH, w);
-
-	ofxAsync::run([&](ofThread* thread){
-		ofLog() << "thread started";
-
-		this->th = thread;
-
-		thread->sleep(1);
-
-		while(thread->isThreadRunning()){
-			updateCv();
-			thread->sleep(1);
-		}
-	});
-
-	#else
-	grabber.setup(w, h);
-	#endif // USE_CV
+	webcam.setup(w, h, device_id, webcam_fps);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	#ifdef USE_CV
-	if(mats.size() > 0){
-		auto&& mat = mats.front();
-		ofxCv::copy(mat, img);
-		mats.pop();
-		img.update();
-	}
-	#else
-	grabber.update();
-	#endif // USE_CV
+	webcam.update();
 }
-
-#ifdef USE_CV
-//--------------------------------------------------------------
-void ofApp::updateCv(){
-	// ofLog() << "updateCv";
-	cv::Mat mat;
-	cap.read(mat);
-	ofxCv::convertColor(mat, mat, cv::COLOR_BGR2RGB);
-	mats.push(mat);
-}
-#endif // USE_CV
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	#ifdef USE_CV
-	if(img.isAllocated()){
-		img.draw(0, 0);
-	}
-	#else
-	grabber.draw(0, 0);
-	#endif // USE_CV
-	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(), 2, 0, '\0'), 20, 20);
+	webcam.draw(0, 0);
+
+	ofDrawBitmapStringHighlight("FPS: " + ofToString(ofGetFrameRate(), 2, 0, '\0'), 20, 20);
+	ofDrawBitmapStringHighlight("Webcam FPS: " + ofToString(webcam.getFps(), 2, 0, '\0'), 20, 40);
+	ofDrawBitmapStringHighlight("Webcam size: " +
+		ofToString(webcam.getWidth(), 0, 0, '\0')
+		+ " x " +
+		ofToString(webcam.getHeight(), 0, 0, '\0')
+	, 20, 60);
 }
 
 //--------------------------------------------------------------

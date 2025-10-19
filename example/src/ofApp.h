@@ -1,21 +1,13 @@
 #pragma once
 
 #include "ofMain.h"
-
-#define USE_CV
-
-#ifdef USE_CV
-#include "ofxCv.h"
-#endif // USE_CV
+#include "ofxWebcam.h"
 
 class ofApp : public ofBaseApp{
 
 	public:
 		void setup();
 		void update();
-		#ifdef USE_CV
-		void updateCv();
-		#endif // USE_CV
 		void draw();
 
 		void keyPressed(int key);
@@ -31,16 +23,10 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		void exit() override;
 
-		int w = 1280;
-		int h = 720;
+		int w = 1920;
+		int h = 1080;
+		int device_id = 0;
+		float webcam_fps = 60;
 
-		#ifdef USE_CV
-		ofThread* th;
-		cv::VideoCapture cap;
-		std::queue<cv::Mat> mats;
-		ofImage img;
-		#else
-		ofVideoGrabber grabber;
-		#endif // USE_CV
-		
+		ofxWebcam webcam;
 };
