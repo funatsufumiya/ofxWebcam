@@ -8,6 +8,7 @@ Tested on oF 0.12.0
 
 - ofxOpenCv
 - [ofxCv](https://github.com/kylemcdonald/ofxCv)
+- [ofxAsync](https://github.com/funatsufumiya/ofxAsync)
 
 ## Why
 

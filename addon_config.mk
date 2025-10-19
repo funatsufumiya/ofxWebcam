@@ -5,7 +5,7 @@ meta:
 	ADDON_TAGS = "webcam" "camera"
 	ADDON_URL = https://github.com/funatsufumiya/ofxWebcam
 common:
-	ADDON_DEPENDENCIES = "ofxOpenCv" "ofxCv"
+	ADDON_DEPENDENCIES = ofxOpenCv ofxCv ofxAsync
 # 	ADDON_INCLUDES = libs/xxx/include
 # 	ADDON_INCLUDES += src
 osx:
