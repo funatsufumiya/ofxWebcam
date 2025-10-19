@@ -18,6 +18,10 @@ Default `ofVideoGrabber` webcam is very slow on recent Windows 11 when high reso
 
 - on macOS, you may need to run your app twice for Camera Security.
 
+## Build (dev)
+
+see [docs/build.md](docs/build.md)
+
 ## License
 
 0BSD or/and WTFPL (for source codes)
