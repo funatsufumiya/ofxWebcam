@@ -14,6 +14,10 @@ Tested on oF 0.12.0
 
 Default `ofVideoGrabber` webcam is very slow on recent Windows 11 when high resolution (maybe because of DirectShow).
 
+## Known Issues
+
+- on macOS, you may need to run your app twice for Camera Security.
+
 ## License
 
 0BSD or/and WTFPL (for source codes)
