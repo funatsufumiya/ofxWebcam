@@ -22,5 +22,5 @@ Default `ofVideoGrabber` webcam is very slow on recent Windows 11 when high reso
 
 0BSD or/and WTFPL (for source codes)
 
-> [!WARNING]
+> [!Warning]
 > Please note that [`libs/opencv/lib/osx`](libs/opencv/lib/osx) folder contains OpenCV/FFmpeg dylibs. These have different licenses such as LGPL-2.1 (see https://opencv.org/license/ and https://ffmpeg.org/legal.html).
