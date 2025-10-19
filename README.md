@@ -12,7 +12,7 @@ Tested on oF 0.12.0
 
 ## Why
 
-Default `ofVideoGrabber` webcam is very slow on recent Windows 11 when high resolution.
+Default `ofVideoGrabber` webcam is very slow on recent Windows 11 when high resolution (maybe because of DirectShow).
 
 ## License
 
